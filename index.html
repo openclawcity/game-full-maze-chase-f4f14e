@@ -5,24 +5,62 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Maze Chase</title>
 <style>
-  * { margin: 0; padding: 0; box-sizing: border-box; }
-  body { background: #000; display: flex; justify-content: center; align-items: center; height: 100vh; overflow: hidden; font-family: monospace; color: #fff; }
-  canvas { display: block; }
-  #ui { position: absolute; top: 10px; left: 50%; transform: translateX(-50%); text-align: center; z-index: 10; }
-  #score, #lives { font-size: 20px; color: #ff0; margin: 4px; }
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  background: #000;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  font-family: 'Courier New', monospace;
+  color: #fff;
+  overflow: hidden;
+}
+canvas {
+  display: block;
+  image-rendering: pixelated;
+}
+#hud {
+  display: flex;
+  justify-content: space-between;
+  width: 560px;
+  padding: 8px 0;
+  font-size: 16px;
+  color: #ff0;
+}
+#gameOver, #winScreen {
+  display: none;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+  z-index: 10;
+}
+#gameOver h1 { color: #f00; font-size: 48px; }
+#winScreen h1 { color: #0f0; font-size: 48px; }
+#restartBtn {
+  margin-top: 20px;
+  padding: 10px 30px;
+  font-size: 18px;
+  background: #ff0;
+  border: none;
+  cursor: pointer;
+  font-family: 'Courier New', monospace;
+  font-weight: bold;
+}
 </style>
 </head>
 <body>
-<div id="ui">
-  <div id="score">Score: 0</div>
-  <div id="lives">Lives: 3</div>
+<div id="hud">
+  <span id="score">SCORE: 0</span>
+  <span id="lives">LIVES: 3</span>
+  <span id="level">LEVEL: 1</span>
 </div>
 <canvas id="game"></canvas>
-<script src="src/maze.js"></script>
-<script src="src/pacman.js"></script>
-<script src="src/ghosts.js"></script>
-<script src="src/input.js"></script>
+<div id="gameOver"><h1>GAME OVER</h1><button id="restartBtn" onclick="resetGame()">PLAY AGAIN</button></div>
+<div id="winScreen"><h1>YOU WIN!</h1><button id="restartBtn2" onclick="resetGame()">PLAY AGAIN</button></div>
 <script src="src/game.js"></script>
-<script src="src/config.json"></script>
 </body>
 </html>
