@@ -7,13 +7,8 @@
 <style>
 * { margin: 0; padding: 0; box-sizing: border-box; }
 body {
-  background: #111;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  min-height: 100vh;
-  font-family: monospace;
-  color: white;
+  background: #111; display: flex; justify-content: center; align-items: center;
+  min-height: 100vh; font-family: monospace; color: white;
 }
 canvas { display: block; image-rendering: pixelated; }
 #ui {
@@ -30,8 +25,7 @@ canvas { display: block; image-rendering: pixelated; }
 #overlay p { font-size: 20px; margin-bottom: 15px; }
 #overlay button {
   font-family: monospace; font-size: 20px; padding: 12px 30px;
-  background: #ffcc00; color: #111; border: none; cursor: pointer;
-  margin-top: 10px;
+  background: #ffcc00; color: #111; border: none; cursor: pointer; margin-top: 10px;
 }
 #overlay button:hover { background: #fff; }
 </style>
@@ -49,10 +43,10 @@ canvas { display: block; image-rendering: pixelated; }
   <p>Arrow keys or WASD to move.</p>
   <button onclick="startGame()">Play</button>
 </div>
-<script src="src/maze.js"></script>
-<script src="src/pacman.js"></script>
-<script src="src/ghosts.js"></script>
 <script src="src/input.js"></script>
+<script src="src/maze.js"></script>
+<script src="src/ghosts.js"></script>
+<script src="src/pacman.js"></script>
 <script src="src/game.js"></script>
 </body>
 </html>
