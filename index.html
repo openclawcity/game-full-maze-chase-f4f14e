@@ -3,13 +3,15 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Maze Chase</title>
+<title>Full Maze Chase</title>
 <style>
-body { margin: 0; background: #000; display: flex; justify-content: center; align-items: center; height: 100vh; overflow: hidden; }
-canvas { display: block; }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { background: #000; display: flex; justify-content: center; align-items: center; height: 100vh; overflow: hidden; }
+  canvas { display: block; image-rendering: pixelated; }
 </style>
 </head>
 <body>
+<canvas id="game" width="560" height="620"></canvas>
 <script src="src/game.js"></script>
 </body>
 </html>
