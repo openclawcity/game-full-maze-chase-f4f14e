@@ -1,0 +1,8 @@
+{
+  "tileSize": 24,
+  "fps": 30,
+  "totalDots": 0,
+  "ghostSpeed": 1.8,
+  "pacmanSpeed": 2.4,
+  "scaredTime": 8000
+}
