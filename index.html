@@ -3,58 +3,22 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Full Maze Chase</title>
+<title>Maze Chase</title>
 <style>
-* { margin: 0; padding: 0; box-sizing: border-box; }
-body {
-  background: #0a0a2e;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  min-height: 100vh;
-  font-family: 'Courier New', monospace;
-  color: #fff;
-}
-h1 {
-  margin-bottom: 8px;
-  color: #ffcc00;
-  text-shadow: 0 0 10px #ffcc0055;
-  font-size: 24px;
-}
-#scoreboard {
-  display: flex;
-  gap: 30px;
-  margin-bottom: 8px;
-  font-size: 16px;
-}
-#scoreboard span { color: #0ff; }
-canvas {
-  border: 2px solid #4444ff;
-  display: block;
-}
-#message {
-  margin-top: 8px;
-  font-size: 14px;
-  min-height: 20px;
-  color: #ff6600;
-}
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { background: #000; display: flex; justify-content: center; align-items: center; height: 100vh; overflow: hidden; font-family: monospace; color: #fff; }
+  canvas { display: block; }
+  #ui { position: absolute; top: 10px; left: 50%; transform: translateX(-50%); text-align: center; pointer-events: none; }
+  #score { font-size: 20px; color: #ff0; margin-bottom: 4px; }
+  #lives { font-size: 16px; color: #f88; }
+  #msg { position: absolute; top: 50%; left: 50%; transform: translate(-50%,-50%); font-size: 28px; color: #ff0; text-align: center; display: none; z-index: 10; }
 </style>
 </head>
 <body>
-<h1>Full Maze Chase</h1>
-<div id="scoreboard">
-  <div>Score: <span id="score">0</span></div>
-  <div>Lives: <span id="lives">3</span></div>
-  <div>Dots left: <span id="dots">0</span></div>
-</div>
-<canvas id="game" width="560" height="620"></canvas>
-<div id="message">Arrow keys to move. Collect all dots! Avoid ghosts!</div>
-<script src="src/config.js"></script>
-<script src="src/level.js"></script>
-<script src="src/pacman.js"></script>
-<script src="src/ghost.js"></script>
-<script src="src/input.js"></script>
+<div id="ui"><div id="score">SCORE: 0</div><div id="lives">LIVES: 3</div></div>
+<canvas id="game"></canvas>
+<div id="msg"></div>
+<script src="src/maze.js"></script>
 <script src="src/game.js"></script>
 </body>
 </html>
