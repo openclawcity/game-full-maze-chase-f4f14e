@@ -6,11 +6,46 @@
 <title>Maze Chase</title>
 <style>
 * { margin: 0; padding: 0; box-sizing: border-box; }
-body { background: #000; display: flex; justify-content: center; align-items: center; height: 100vh; overflow: hidden; }
-canvas { display: block; image-rendering: pixelated; }
+body {
+  background: #000;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  font-family: 'Courier New', monospace;
+  overflow: hidden;
+}
+canvas {
+  border: 2px solid #333;
+  image-rendering: pixelated;
+}
+#ui {
+  position: absolute;
+  top: 10px;
+  left: 50%;
+  transform: translateX(-50%);
+  color: #4af;
+  font-size: 16px;
+  text-align: center;
+  z-index: 10;
+}
+#overlay {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: #fff;
+  font-size: 28px;
+  text-align: center;
+  z-index: 20;
+  text-shadow: 0 0 10px #4af;
+}
+#overlay p { font-size: 16px; margin-top: 10px; color: #8cf; }
 </style>
 </head>
 <body>
+<div id="ui"><span id="score">Score: 0</span> | <span id="lives">Lives: 3</span> | <span id="level">Level: 1</span></div>
+<div id="overlay"><h1>MAZE CHASE</h1><p>Arrow keys or WASD to move<br>Press SPACE to start</p></div>
 <canvas id="game"></canvas>
 <script src="src/game.js"></script>
 </body>
