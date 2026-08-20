@@ -1,122 +1,89 @@
-const TILE = 20;
-const COLS = 21;
-const ROWS = 23;
-
-// 0=empty, 1=wall, 2=dot, 3=power pellet, 4=ghost house door
-const MAZE_TEMPLATE = [
-  [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
-  [1,2,2,2,2,2,2,2,2,2,1,2,2,2,2,2,2,2,2,2,1],
-  [1,3,1,1,2,1,1,1,2,1,1,1,2,1,1,1,2,1,1,3,1],
-  [1,2,2,1,2,2,2,2,2,2,2,2,2,2,2,2,2,1,2,2,1],
-  [1,2,1,1,2,1,2,1,1,1,1,1,1,1,2,1,2,1,1,2,1],
-  [1,2,2,2,2,1,2,2,2,2,1,2,2,2,2,1,2,2,2,2,1],
-  [1,1,1,1,2,1,1,1,0,1,1,1,0,1,1,1,2,1,1,1,1],
-  [0,0,0,1,2,1,0,0,0,0,0,0,0,0,0,1,2,1,0,0,0],
-  [1,1,1,1,2,1,0,1,1,4,4,4,1,1,0,1,2,1,1,1,1],
-  [0,0,0,0,2,0,0,1,0,0,0,0,0,1,0,0,2,0,0,0,0],
-  [1,1,1,1,2,1,0,1,1,1,1,1,1,1,0,1,2,1,1,1,1],
-  [0,0,0,1,2,1,0,0,0,0,0,0,0,0,0,1,2,1,0,0,0],
-  [1,1,1,1,2,1,0,1,1,1,1,1,1,1,0,1,2,1,1,1,1],
-  [1,2,2,2,2,2,2,2,2,1,1,1,2,2,2,2,2,2,2,2,1],
-  [1,2,1,1,2,1,1,1,2,1,1,1,2,1,1,1,2,1,1,2,1],
-  [1,3,2,1,2,2,2,2,2,2,2,2,2,2,2,2,2,1,2,3,1],
-  [1,1,2,1,2,1,2,1,1,1,1,1,1,1,2,1,2,1,2,1,1],
-  [1,2,2,2,2,1,2,2,2,2,1,2,2,2,2,1,2,2,2,2,1],
-  [1,2,1,1,1,1,1,1,2,1,1,1,2,1,1,1,1,1,1,2,1],
-  [1,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,1],
-  [1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1],
-  [1,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,1],
-  [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1]
-];
-
+// Maze generation using recursive backtracker
 class Maze {
-  constructor(canvas) {
-    this.canvas = canvas;
-    this.ctx = canvas.getContext('2d');
-    this.maze = MAZE_TEMPLATE.map(row => [...row]);
-    this.totalDots = 0;
-    this.dotsEaten = 0;
-    for (let r = 0; r < ROWS; r++) {
-      for (let c = 0; c < COLS; c++) {
-        if (this.maze[r][c] === 2 || this.maze[r][c] === 3) this.totalDots++;
+  constructor(cols, rows) {
+    this.cols = cols;
+    this.rows = rows;
+    this.cellSize = 0;
+    this.grid = [];
+    this.stack = [];
+    this.generate();
+  }
+
+  generate() {
+    const totalCells = this.cols * this.rows;
+    this.grid = [];
+    for (let i = 0; i < totalCells; i++) {
+      this.grid.push({
+        row: Math.floor(i / this.cols),
+        col: i % this.cols,
+        walls: { top: true, right: true, bottom: true, left: true },
+        visited: false
+      });
+    }
+
+    let current = this.grid[0];
+    current.visited = true;
+    this.stack.push(current);
+
+    while (this.stack.length > 0) {
+      const neighbors = this.getUnvisitedNeighbors(current);
+      if (neighbors.length > 0) {
+        const next = neighbors[Math.floor(Math.random() * neighbors.length)];
+        this.removeWalls(current, next);
+        next.visited = true;
+        this.stack.push(current);
+        current = next;
+      } else {
+        current = this.stack.pop();
       }
     }
-    canvas.width = COLS * TILE;
-    canvas.height = ROWS * TILE;
   }
 
-  reset() {
-    for (let r = 0; r < ROWS; r++)
-      for (let c = 0; c < COLS; c++)
-        this.maze[r][c] = MAZE_TEMPLATE[r][c];
-    this.dotsEaten = 0;
+  getUnvisitedNeighbors(cell) {
+    const neighbors = [];
+    const { row, col } = cell;
+    if (row > 0 && !this.getCell(col, row - 1).visited) neighbors.push(this.getCell(col, row - 1));
+    if (col < this.cols - 1 && !this.getCell(col + 1, row).visited) neighbors.push(this.getCell(col + 1, row));
+    if (row < this.rows - 1 && !this.getCell(col, row + 1).visited) neighbors.push(this.getCell(col, row + 1));
+    if (col > 0 && !this.getCell(col - 1, row).visited) neighbors.push(this.getCell(col - 1, row));
+    return neighbors;
   }
 
-  isWall(r, c) {
-    if (r < 0 || r >= ROWS || c < 0 || c >= COLS) return true;
-    return this.maze[r][c] === 1;
+  getCell(x, y) {
+    if (x < 0 || x >= this.cols || y < 0 || y >= this.rows) return null;
+    return this.grid[y * this.cols + x];
   }
 
-  isDoor(r, c) {
-    if (r < 0 || r >= ROWS || c < 0 || c >= COLS) return false;
-    return this.maze[r][c] === 4;
+  removeWalls(a, b) {
+    const dx = a.col - b.col;
+    const dy = a.row - b.row;
+    if (dx === 1) { a.walls.left = false; b.walls.right = false; }
+    else if (dx === -1) { a.walls.right = false; b.walls.left = false; }
+    if (dy === 1) { a.walls.top = false; b.walls.bottom = false; }
+    else if (dy === -1) { a.walls.bottom = false; b.walls.top = false; }
   }
 
-  canPass(r, c, allowDoor = false) {
-    const cell = this.maze[r]?.[c];
-    if (cell === undefined) return false;
-    if (cell === 1) return false;
-    if (cell === 4 && !allowDoor) return false;
-    return true;
-  }
-
-  eatDot(r, c) {
-    const cell = this.maze[r][c];
-    if (cell === 2) {
-      this.maze[r][c] = 0;
-      this.dotsEaten++;
-      return { type: 'dot', points: 10 };
+  draw(ctx, cellSize) {
+    this.cellSize = cellSize;
+    ctx.strokeStyle = '#0000ff';
+    ctx.lineWidth = 2;
+    for (const cell of this.grid) {
+      const x = cell.col * cellSize;
+      const y = cell.row * cellSize;
+      if (cell.walls.top) { ctx.beginPath(); ctx.moveTo(x, y); ctx.lineTo(x + cellSize, y); ctx.stroke(); }
+      if (cell.walls.right) { ctx.beginPath(); ctx.moveTo(x + cellSize, y); ctx.lineTo(x + cellSize, y + cellSize); ctx.stroke(); }
+      if (cell.walls.bottom) { ctx.beginPath(); ctx.moveTo(x, y + cellSize); ctx.lineTo(x + cellSize, y + cellSize); ctx.stroke(); }
+      if (cell.walls.left) { ctx.beginPath(); ctx.moveTo(x, y); ctx.lineTo(x, y + cellSize); ctx.stroke(); }
     }
-    if (cell === 3) {
-      this.maze[r][c] = 0;
-      this.dotsEaten++;
-      return { type: 'power', points: 50 };
-    }
-    return null;
   }
 
-  allDotsGone() {
-    return this.dotsEaten >= this.totalDots;
+  canMove(cell, direction) {
+    return !cell.walls[direction];
   }
 
-  draw() {
-    const ctx = this.ctx;
-    for (let r = 0; r < ROWS; r++) {
-      for (let c = 0; c < COLS; c++) {
-        const cell = this.maze[r][c];
-        const x = c * TILE, y = r * TILE;
-        if (cell === 1) {
-          ctx.fillStyle = '#2244aa';
-          ctx.fillRect(x, y, TILE, TILE);
-          ctx.strokeStyle = '#4466cc';
-          ctx.strokeRect(x + 1, y + 1, TILE - 2, TILE - 2);
-        } else if (cell === 2) {
-          ctx.fillStyle = '#ffcc88';
-          ctx.beginPath();
-          ctx.arc(x + TILE/2, y + TILE/2, 2.5, 0, Math.PI * 2);
-          ctx.fill();
-        } else if (cell === 3) {
-          ctx.fillStyle = '#ffcc88';
-          ctx.beginPath();
-          ctx.arc(x + TILE/2, y + TILE/2, 6, 0, Math.PI * 2);
-          ctx.fill();
-        } else if (cell === 4) {
-          ctx.fillStyle = '#ff88cc';
-          ctx.fillRect(x, y + TILE/2 - 2, TILE, 4);
-        }
-      }
-    }
+  getCellAt(x, y) {
+    const col = Math.floor(x / this.cellSize);
+    const row = Math.floor(y / this.cellSize);
+    return this.getCell(col, row);
   }
 }
-
-const maze = new Maze(document.getElementById('game'));
