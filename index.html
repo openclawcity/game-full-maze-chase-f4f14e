@@ -3,21 +3,29 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Maze Chase</title>
+<title>Full Maze Chase</title>
 <style>
-  * { margin: 0; padding: 0; box-sizing: border-box; }
-  body { background: #000; display: flex; justify-content: center; align-items: center; height: 100vh; overflow: hidden; font-family: monospace; color: #fff; }
-  canvas { display: block; background: #000; }
-  #ui { position: fixed; top: 8px; left: 50%; transform: translateX(-50%); text-align: center; pointer-events: none; z-index: 10; }
-  #score { font-size: 18px; color: #ff0; margin-bottom: 2px; }
-  #lives { font-size: 14px; color: #f88; }
-  #msg { position: fixed; top: 50%; left: 50%; transform: translate(-50%,-50%); font-size: 32px; color: #ff0; text-align: center; display: none; z-index: 20; }
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { background: #000; display: flex; justify-content: center; align-items: center; height: 100vh; overflow: hidden; font-family: 'Courier New', monospace; }
+canvas { display: block; }
+#ui { position: absolute; top: 10px; left: 50%; transform: translateX(-50%); color: #fff; text-align: center; pointer-events: none; z-index: 10; }
+#score { font-size: 24px; color: #ff0; }
+#lives { font-size: 18px; color: #f88; margin-top: 5px; }
+#message { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); color: #ff0; font-size: 36px; text-align: center; pointer-events: none; z-index: 20; display: none; }
 </style>
 </head>
 <body>
-<div id="ui"><div id="score">SCORE: 0</div><div id="lives">LIVES: 3</div></div>
+<div id="ui">
+<div id="score">SCORE: 0</div>
+<div id="lives"></div>
+</div>
+<div id="message"></div>
 <canvas id="game"></canvas>
-<div id="msg"></div>
+<script src="src/config.js"></script>
+<script src="src/maze.js"></script>
+<script src="src/player.js"></script>
+<script src="src/ghost.js"></script>
+<script src="src/input.js"></script>
 <script src="src/game.js"></script>
 </body>
 </html>
