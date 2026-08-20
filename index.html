@@ -12,6 +12,9 @@ canvas { display: block; }
 #score { font-size: 24px; color: #ff0; }
 #lives { font-size: 18px; color: #f88; margin-top: 5px; }
 #message { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); color: #ff0; font-size: 36px; text-align: center; pointer-events: none; z-index: 20; display: none; }
+#startScreen { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); color: #fff; text-align: center; z-index: 30; }
+#startScreen h1 { font-size: 48px; color: #ff0; margin-bottom: 20px; }
+#startScreen p { font-size: 18px; color: #aaa; }
 </style>
 </head>
 <body>
@@ -19,6 +22,7 @@ canvas { display: block; }
 <div id="score">SCORE: 0</div>
 <div id="lives"></div>
 </div>
+<div id="startScreen"><h1>MAZE CHASE</h1><p>Press SPACE to start<br>Arrow keys or WASD to move</p></div>
 <div id="message"></div>
 <canvas id="game"></canvas>
 <script src="src/config.js"></script>
