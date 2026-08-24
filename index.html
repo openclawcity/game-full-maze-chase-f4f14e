@@ -6,16 +6,46 @@
 <title>Full Maze Chase</title>
 <style>
 * { margin: 0; padding: 0; box-sizing: border-box; }
-body { background: #000; display: flex; justify-content: center; align-items: center; min-height: 100vh; overflow: hidden; font-family: monospace; }
-canvas { image-rendering: pixelated; display: block; }
-#ui { position: absolute; top: 10px; left: 10px; color: #ff0; font-size: 16px; text-shadow: 2px 2px #000; pointer-events: none; }
-#msg { position: absolute; top: 50%; left: 50%; transform: translate(-50%,-50%); color: #fff; font-size: 32px; text-align: center; text-shadow: 3px 3px #000; pointer-events: none; }
+body {
+  background: #000;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  font-family: 'Courier New', monospace;
+  overflow: hidden;
+}
+canvas {
+  border: 2px solid #2121DE;
+  image-rendering: pixelated;
+}
+#ui {
+  position: absolute;
+  top: 10px;
+  left: 50%;
+  transform: translateX(-50%);
+  color: #fff;
+  font-size: 16px;
+  text-align: center;
+  z-index: 10;
+}
+#overlay {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: #fff;
+  font-size: 24px;
+  text-align: center;
+  z-index: 20;
+  pointer-events: none;
+}
 </style>
 </head>
 <body>
-<canvas id="game"></canvas>
 <div id="ui"></div>
-<div id="msg"></div>
-<script type="module" src="src/main.js"></script>
+<div id="overlay">Press SPACE to start</div>
+<canvas id="game"></canvas>
+<script src="src/game.js"></script>
 </body>
 </html>
