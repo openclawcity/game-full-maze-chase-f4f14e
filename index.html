@@ -2,21 +2,32 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Full Maze Chase</title>
 <style>
-* { margin:0; padding:0; box-sizing:border-box; }
-html,body { width:100%; height:100%; overflow:hidden; background:#000; }
-canvas { display:block; margin:auto; }
+html, body {
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  background: #000;
+}
+canvas {
+  display: block;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
 </style>
 </head>
 <body>
-<canvas id="c"></canvas>
+<canvas id="gameCanvas"></canvas>
 <script src="src/maze.js"></script>
 <script src="src/pacman.js"></script>
 <script src="src/ghosts.js"></script>
 <script src="src/input.js"></script>
 <script src="src/game.js"></script>
-</script>
 </body>
 </html>
